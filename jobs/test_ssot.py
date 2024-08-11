@@ -50,7 +50,7 @@ class ExampleDataSource(DataSource, Job):
 
     def run(self, dryrun, memory_profiling, source_data, *args, **kwargs):
         self._data = source_data
-        super().run(dryrun, memory_profiling, args, kwargs)
+        super().run(False, memory_profiling, args, kwargs)
 
     def load_source_adapter(self):
         self.source_adapter = MySSoTRemoteAdapter(data=self._data)
