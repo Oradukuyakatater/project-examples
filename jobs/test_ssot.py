@@ -53,7 +53,7 @@ class ExampleDataSource(DataSource, Job):
         super().run(dryrun, memory_profiling, args, kwargs)
 
     def load_source_adapter(self):
-        self.source_adapter = MySSoTRemoteAdapter(self._data)
+        self.source_adapter = MySSoTRemoteAdapter(data=self._data)
         self.source_adapter.load()
 
     def load_target_adapter(self):
