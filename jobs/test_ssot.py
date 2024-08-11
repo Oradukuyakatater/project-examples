@@ -46,11 +46,14 @@ class ExampleDataSource(DataSource, Job):
     class Meta:
         name = "Example Data Source"
 
-    data = JSONVar()
+    source_data = JSONVar()
+
+    def run(self, dryrun, memory_profiling, source_data, *args, **kwargs):
+        self._data = source_data
+        super().run(dryrun, memory_profiling, args, kwargs)
 
     def load_source_adapter(self):
-        print(self.data)
-        self.source_adapter = MySSoTRemoteAdapter(self.data)
+        self.source_adapter = MySSoTRemoteAdapter(self._data)
         self.source_adapter.load()
 
     def load_target_adapter(self):
