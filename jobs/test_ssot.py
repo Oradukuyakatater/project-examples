@@ -57,7 +57,7 @@ class ExampleDataSource(DataSource, Job):
         self.source_adapter.load()
 
     def load_target_adapter(self):
-        self.target_adapter = MySSoTNautobotAdapter()
+        self.target_adapter = MySSoTNautobotAdapter(job=self)
         self.target_adapter.load()
 
 
