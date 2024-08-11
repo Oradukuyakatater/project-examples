@@ -49,7 +49,7 @@ class ExampleDataSource(DataSource, Job):
     source_data = JSONVar()
 
     def run(self, *args, source_data, **kwargs):
-        self.logger.info(args["dryrun"])
+        self.logger.info(args[0])
         self._data = source_data
         super().run(*args, **kwargs)
 
