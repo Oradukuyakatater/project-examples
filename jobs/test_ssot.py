@@ -48,9 +48,9 @@ class ExampleDataSource(DataSource, Job):
 
     source_data = JSONVar()
 
-    def __init__(self, *args, source_data, **kwargs):
-        super().__init__(*args, **kwargs)
+    def run(self, dryrun, memory_profiling, source_data, *args, **kwargs):
         self._data = source_data
+        super().run(dryrun, memory_profiling, args, kwargs)
 
     def load_source_adapter(self):
         self.source_adapter = MySSoTRemoteAdapter(data=self._data)
