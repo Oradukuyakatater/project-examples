@@ -1,66 +1,72 @@
-# example_ssot_app/jobs.py
-from typing import Optional
-
 from diffsync import DiffSync
-from nautobot.ipam.models import VLAN
-from nautobot.apps.jobs import Job, JSONVar, register_jobs
-from nautobot_ssot.contrib import NautobotModel, NautobotAdapter
+from nautobot.apps.jobs import JSONVar, register_jobs
+from nautobot.virtualization.models import VirtualMachine
 from nautobot_ssot.jobs import DataSource
+from nautobot_ssot.contrib import NautobotAdapter, NautobotModel
 
 
-class VLANModel(NautobotModel):
+class VirtualMachineModel(NautobotModel):
     """DiffSync model for VLANs."""
-    _model = VLAN
-    _modelname = "vlan"
-    _identifiers = ("vid", "group__name")
-    _attributes = ("description",)
 
-    vid: int
-    group__name: Optional[str] = None
-    description: Optional[str] = None
+    _model = VirtualMachine
+    _modelname = "virtual_machine"
+    _identifiers = ("name", "cluster__name", )
+    _attributes = ()
+
+    name: str
+    cluster__name: str
 
 
-class MySSoTNautobotAdapter(NautobotAdapter):
+class VirtualMachineNautobotAdapter(NautobotAdapter):
     """DiffSync adapter for Nautobot."""
-    vlan = VLANModel
-    top_level = ("vlan",)
+
+    virtual_machine = VirtualMachineModel
+    top_level = ("virtual_machine",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
-class MySSoTRemoteAdapter(DiffSync):
+class VirtualMachineRemoteAdapter(DiffSync):
     """DiffSync adapter for remote system."""
-    vlan = VLANModel
-    top_level = ("vlan",)
+
+    virtual_machine = VirtualMachineModel
+    top_level = ("virtual_machine",)
 
     def __init__(self, *args, data, **kwargs):
         super().__init__(*args, **kwargs)
         self._data = data
 
     def load(self):
-        for vlan in self._data:
-            loaded_vlan = self.vlan(vid=vlan["vlan_id"], group__name=vlan["grouping"], description=vlan["description"])
-            self.add(loaded_vlan)
+        # for virtual_machine in self._sql_connection.query(self._query):
+        for virtual_machine in self._data:
+            loaded_virtual_machine = self.virtual_machine(name=virtual_machine["name"], cluster__name=virtual_machine["cluster"])
+            self.add(loaded_virtual_machine)
 
 
-class ExampleDataSource(DataSource, Job):
+class VirtualMachineDataSource(DataSource):
     """SSoT Job class."""
-    class Meta:
-        name = "Example Data Source"
 
     source_data = JSONVar()
 
-    def run(self, *args, source_data, **kwargs):
-        self.logger.info(args)
-        self.logger.info(kwargs)
+    class Meta:
+        name = "Virtual Machine Data Source"
+
+    def run(self, dryrun, memory_profiling, source_data, *args, **kwargs):
         self._data = source_data
-        super().run(*args, **kwargs)
+        self.dryrun = dryrun
+        self.memory_profiling = memory_profiling
+        self.logger.info(f"dryrun value: {self.dryrun}")
+        self.logger.info(f"source data value: {self._data}")
+        super().run(dryrun=self.dryrun, memory_profiling=self.memory_profiling, *args, **kwargs)
 
     def load_source_adapter(self):
-        self.source_adapter = MySSoTRemoteAdapter(data=self._data)
+        self.source_adapter = VirtualMachineRemoteAdapter(data=self._data)
         self.source_adapter.load()
 
     def load_target_adapter(self):
-        self.target_adapter = MySSoTNautobotAdapter(job=self)
+        self.target_adapter = VirtualMachineNautobotAdapter(job=self)
         self.target_adapter.load()
 
 
-register_jobs(ExampleDataSource)
+register_jobs(VirtualMachineDataSource)
