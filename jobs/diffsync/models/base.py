@@ -93,55 +93,6 @@ class IPAddress(NautobotModel):
     mask_length: str
     status__name: str
 
-    @classmethod
-    def create(cls, diffsync, ids, attrs):
-        """
-            Create IPAddress object in Nautobot.
-            
-            It will also
-        """
-
-        if attrs["virtual_machine"] and attrs["is_primary"]:
-            device = OrmVirtualMachine.objects.get(
-                name=_virtual_machine,
-            )
-            device.primary_ip4 = OrmIPAddress.objects.get(address=ids["address"])
-            device.save()
-
-        return super().create(ids=ids, diffsync=diffsync, attrs=attrs)
-    #     _virtual_machine = attrs["virtual_machine"]
-    #     _vm_interface = attrs["vm_interface"]
-
-    #     nb_interface = None
-    #     if attrs["virtual_machine"] and attrs["interface"]:
-    #         try:
-    #             nb_interface = OrmVMInterface.objects.get(name=_vm_interface, device__name=_virtual_machine)
-    #         except OrmVMInterface.DoesNotExist:
-    #             diffsync.job.logger.warning(f"{_virtual_machine} missing interface {_vm_interface} to assign {ids['address']}")
-
-    #     nb_status = Status.objects.get(name=attrs["status"]),
-    #     network_object = ipaddress.IPv4Network(f"{attrs['address']}/{attrs['mask_length']}", strict=False)
-    #     nb_prefix, created = OrmPrefix.objects.get_or_create(
-    #         prefix=network_object.with_prefixlen,
-    #         defaults={
-    #             "prefix": network_object.with_prefixlen,
-    #             "namespace__name": "Global",
-    #             "status__name": nb_status
-    #         }
-    #     )
-    #     if created:
-    #         diffsync.job.logger.info(f"Prefix {network_object.with_prefixlen} created")
-
-    #     nb_ipaddress = OrmIPAddress.objects.create(
-    #         address=ids["address"],
-    #         status=nb_status,
-    #     )
-    #     if nb_interface:
-    #         mapping = OrmIPAddressToInterface.objects.create(ip_address=nb_ipaddress, interface=nb_interface)
-    #         mapping.validated_save()
-    #         diffsync.job.logger.info(f"IP {nb_ipaddress.address} assigned to interfacez {_vm_interface} on virtual machine {_virtual_machine}")
-    #     nb_ipaddress.validated_save()
-
 
 class IPAddressToInterface(NautobotModel):
     """IPAddress model for DiffSync."""
