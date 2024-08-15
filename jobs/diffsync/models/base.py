@@ -23,9 +23,9 @@ class Prefix(NautobotModel):
     _modelname = "prefix"
     _identifiers = (
         "network",
-        "prefix_length",
     )
     _attributes = (
+        "prefix_length",
         "status__name",
     )
 
