@@ -89,7 +89,7 @@ class IPAddress(NautobotModel):
     )
     _attributes = (
         "status__name",
-        "vm_interface",
+        "vm_interfaces",
     )
 
     host: str
