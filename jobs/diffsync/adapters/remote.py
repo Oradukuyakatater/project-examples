@@ -56,7 +56,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
                     if network_obj.with_prefixlen not in self.prefixes_local:
                         loaded_prefix = self.prefix(
                             network=str(network_obj.network_address),
-                            prefix_length=network_obj.netmask,
+                            prefix_length=network_obj.prefixlen,
                             status__name=vm_interface.get("status", "Active")
                         )
                         self.add(loaded_prefix)
