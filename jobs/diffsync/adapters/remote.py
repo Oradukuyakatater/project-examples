@@ -1,6 +1,6 @@
 from diffsync import DiffSync
 
-from jobs.diffsync.models.base import (
+from ..models.base import (
     Prefix as PrefixModel,
     VMInterface as VMInterfaceModel,
     VirtualMachine as VirtualMachineModel,

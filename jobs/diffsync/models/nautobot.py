@@ -10,7 +10,8 @@ from nautobot.ipam.models import (
     Prefix as OrmPrefix,
 )
 from nautobot.extras.models import Status
-from jobs.diffsync.models.base import (
+
+from .base import (
     IPAddress,
 )
 

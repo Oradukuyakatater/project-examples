@@ -3,7 +3,7 @@ from nautobot.apps.jobs import JSONVar, register_jobs
 from nautobot.virtualization.models import VirtualMachine, VMInterface
 from nautobot_ssot.jobs import DataSource
 
-from jobs.diffsync.adapters import VirtualMachineNautobotAdapter, VirtualMachineRemoteAdapter
+from .diffsync.adapters import VirtualMachineNautobotAdapter, VirtualMachineRemoteAdapter
 
 
 class VirtualMachineDataSource(DataSource):
