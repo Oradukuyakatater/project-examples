@@ -1,3 +1,5 @@
+import ipaddress
+
 from diffsync import DiffSync
 
 from ..models.base import (
@@ -5,6 +7,7 @@ from ..models.base import (
     VMInterface as VMInterfaceModel,
     VirtualMachine as VirtualMachineModel,
     IPAddress as IPAddressModel,
+    IPAddressToInterface as IPAddressToInterfaceModel,
 )
 
 class VirtualMachineRemoteAdapter(DiffSync):
@@ -14,14 +17,13 @@ class VirtualMachineRemoteAdapter(DiffSync):
     vm_interface = VMInterfaceModel
     virtual_machine = VirtualMachineModel
     ip_address = IPAddressModel
+    ip_address_to_interface = IPAddressToInterfaceModel
 
     top_level = (
         "prefix",
         "virtual_machine",
         "vm_interface",
     )
-
-    prefixes_local = {}
 
     def __init__(self, *args, data, **kwargs):
         super().__init__(*args, **kwargs)
