@@ -83,9 +83,9 @@ class IPAddress(NautobotModel):
     _modelname = "ip_address"
     _identifiers = (
         "host",
-        "mask_length",
     )
     _attributes = (
+        "mask_length",
         "status__name",
     )
 
@@ -100,12 +100,13 @@ class IPAddressToInterface(NautobotModel):
     _model = OrmIPAddressToInterface
     _modelname = "ip_address_to_interface"
     _identifiers = (
-        "ip_address__host",
-        "ip_address__mask_length",
         "vm_interface__virtual_machine__name",
         "vm_interface__name",
     )
-    _attributes = ()
+    _attributes = (
+        "ip_address__host",
+        "ip_address__mask_length",
+    )
 
     ip_address__host: str
     ip_address__mask_length: int

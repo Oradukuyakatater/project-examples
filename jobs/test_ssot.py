@@ -19,8 +19,6 @@ class VirtualMachineDataSource(DataSource):
         self._data = source_data
         self.dryrun = dryrun
         self.memory_profiling = memory_profiling
-        self.logger.info(f"dryrun value: {self.dryrun}")
-        self.logger.info(f"source data value: {self._data}")
         super().run(dryrun=self.dryrun, memory_profiling=self.memory_profiling, *args, **kwargs)
 
     def load_source_adapter(self):
