@@ -55,7 +55,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
                     network_obj = ipaddress.IPv4Network(f"{address['ip']}/{address['mask']}", strict=False)
                     if network_obj.with_prefixlen not in self.prefixes_local:
                         loaded_prefix = self.prefix(
-                            network=network_obj.network_address,
+                            network=str(network_obj.network_address),
                             prefix_length=network_obj.netmask,
                             status__name=vm_interface.get("status", "Active")
                         )
