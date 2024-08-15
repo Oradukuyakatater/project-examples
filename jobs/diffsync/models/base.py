@@ -155,13 +155,13 @@ class IPAddressToInterface(NautobotModel):
     _modelname = "ip_address_to_interface"
     _identifiers = (
         "ip_address__host",
-        "ip_address__mask",
+        "ip_address__mask_length",
         "vm_interface__virtual_machine__name",
         "vm_interface__name",
     )
     _attributes = ()
 
     ip_address__host: str
-    ip_address__mask: str
+    ip_address__mask_length: int
     vm_interface__virtual_machine__name: str
     vm_interface__name: str
