@@ -1,47 +1,9 @@
 from diffsync import DiffSync
 from nautobot.apps.jobs import JSONVar, register_jobs
-from nautobot.virtualization.models import VirtualMachine
+from nautobot.virtualization.models import VirtualMachine, VMInterface
 from nautobot_ssot.jobs import DataSource
-from nautobot_ssot.contrib import NautobotAdapter, NautobotModel
 
-
-class VirtualMachineModel(NautobotModel):
-    """DiffSync model for VLANs."""
-
-    _model = VirtualMachine
-    _modelname = "virtual_machine"
-    _identifiers = ("name", "cluster__name", )
-    _attributes = ()
-
-    name: str
-    cluster__name: str
-
-
-class VirtualMachineNautobotAdapter(NautobotAdapter):
-    """DiffSync adapter for Nautobot."""
-
-    virtual_machine = VirtualMachineModel
-    top_level = ("virtual_machine",)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-
-class VirtualMachineRemoteAdapter(DiffSync):
-    """DiffSync adapter for remote system."""
-
-    virtual_machine = VirtualMachineModel
-    top_level = ("virtual_machine",)
-
-    def __init__(self, *args, data, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._data = data
-
-    def load(self):
-        # for virtual_machine in self._sql_connection.query(self._query):
-        for virtual_machine in self._data:
-            loaded_virtual_machine = self.virtual_machine(name=virtual_machine["name"], cluster__name=virtual_machine["cluster"])
-            self.add(loaded_virtual_machine)
+from jobs.diffsync.adapters import VirtualMachineNautobotAdapter, VirtualMachineRemoteAdapter
 
 
 class VirtualMachineDataSource(DataSource):
