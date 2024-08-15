@@ -23,6 +23,8 @@ class VirtualMachineRemoteAdapter(DiffSync):
         "prefix",
         "virtual_machine",
         "vm_interface",
+        "ip_address",
+        "ip_address_to_interface",
     )
 
     prefixes_local = []
@@ -69,7 +71,6 @@ class VirtualMachineRemoteAdapter(DiffSync):
                         vm_interface=vm_interface["name"]
                     )
                     self.add(loaded_ip_address)
-                    loaded_vm_interface.add_child(loaded_ip_address)
                     loaded_ip_address_to_interface = self.ip_address_to_interface(
                         ip_address__host=address["ip"],
                         ip_address__mask=address["mask"],
