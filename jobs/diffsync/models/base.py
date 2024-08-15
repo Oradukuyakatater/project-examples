@@ -78,8 +78,6 @@ class IPAddress(NautobotModel):
     )
     _attributes = (
         "status__name",
-        "description",
-        "virtual_machine",
         "vm_interface",
     )
 
