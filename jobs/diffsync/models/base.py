@@ -106,7 +106,7 @@ class IPAddressToInterface(NautobotModel):
         "vm_interface__name",
     )
     _attributes = (
-        "is_primary"
+        "is_primary",
     )
 
     ip_address__host: str
