@@ -11,14 +11,14 @@ class VirtualMachineRemoteAdapter(DiffSync):
     """DiffSync adapter for remote system."""
 
     prefix = PrefixModel
-    interface = VMInterfaceModel
+    vm_interface = VMInterfaceModel
     virtual_machine = VirtualMachineModel
     ip_address = IPAddressModel
 
     top_level = (
         "prefix",
         "virtual_machine",
-        "interface",
+        "vm_interface",
         "ip_address",
     )
 
