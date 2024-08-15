@@ -16,10 +16,9 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
     ip_address = IPAddressModel
 
     top_level = (
-        # "prefix",
+        "prefix",
         "virtual_machine",
         "vm_interface",
-        "ip_address",
     )
 
     def __init__(self, *args, **kwargs):

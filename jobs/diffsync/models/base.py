@@ -27,14 +27,9 @@ class Prefix(NautobotModel):
     _attributes = (
         "status__name",
     )
-    _children = {
-        "ip_address": "ip_addresses",
-    }
 
     prefix: str
     status__name: str
-
-    ip_addresses: Optional[List["IPAddress"]] = []
 
 
 class VirtualMachine(NautobotModel):
@@ -73,8 +68,8 @@ class VMInterface(NautobotModel):
     _attributes = (
         "status__name",
     )
-    _children = {
-        "ip_address": "ip_addresses",
+    _children= {
+        "ip_address": "ip_addresses"
     }
 
     name: str
@@ -153,3 +148,17 @@ class IPAddress(NautobotModel):
     #         device.save()
 
     #     return super().create(ids=ids, diffsync=diffsync, attrs=attrs)
+
+
+class IPAddressToInterface(NautobotModel):
+    """IPAddress model for DiffSync."""
+
+    _model = OrmIPAddressToInterface
+    _modelname = "ip_address"
+    _identifiers = (
+        "ip_address__host",
+        "ip_address__mask",
+        "vm_interface__virtual_machine__name",
+        "vm_interface__name",
+    )
+    _attributes = ()
