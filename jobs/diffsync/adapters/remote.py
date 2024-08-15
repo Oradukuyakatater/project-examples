@@ -68,6 +68,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
                         virtual_machine=virtual_machine["name"],
                         vm_interface=vm_interface["name"]
                     )
+                    self.add(loaded_ip_address)
                     loaded_vm_interface.add_child(loaded_ip_address)
                     loaded_ip_address_to_interface = self.ip_address_to_interface(
                         ip_address__host=address["ip"],
