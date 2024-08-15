@@ -1,2 +1,2 @@
-from jobs.diffsync.adapters.nautobot import VirtualMachineNautobotAdapter
-from jobs.diffsync.adapters.remote import VirtualMachineRemoteAdapter
+from . import VirtualMachineNautobotAdapter
+from . import VirtualMachineRemoteAdapter
