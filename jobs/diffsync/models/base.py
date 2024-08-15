@@ -72,9 +72,9 @@ class VMInterface(NautobotModel):
     _attributes = (
         "status__name",
     )
-    _children = (
-        "ip_addresses",
-    )
+    _children = {
+        "ip_address": "ip_addresses",
+    }
 
     name: str
     virtual_machine__name: str
