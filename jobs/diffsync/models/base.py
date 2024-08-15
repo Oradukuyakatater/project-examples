@@ -105,12 +105,9 @@ class IPAddressToInterface(NautobotModel):
         "vm_interface__virtual_machine__name",
         "vm_interface__name",
     )
-    _attributes = (
-        "is_primary",
-    )
+    _attributes = ()
 
     ip_address__host: str
     ip_address__mask_length: int
     vm_interface__virtual_machine__name: str
     vm_interface__name: str
-    is_primary: bool
