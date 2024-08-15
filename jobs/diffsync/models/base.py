@@ -154,7 +154,7 @@ class IPAddressToInterface(NautobotModel):
     """IPAddress model for DiffSync."""
 
     _model = OrmIPAddressToInterface
-    _modelname = "ip_address"
+    _modelname = "ip_address_to_interface"
     _identifiers = (
         "ip_address__host",
         "ip_address__mask",
