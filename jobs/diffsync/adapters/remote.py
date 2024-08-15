@@ -38,14 +38,14 @@ class VirtualMachineRemoteAdapter(DiffSync):
                 status__name=virtual_machine.get("status", "Active")
             )
             self.add(loaded_virtual_machine)
-            for vm_interface in virtual_machine["vm_interfaces"]:
+            for vm_interface in virtual_machine["interfaces"]:
                 loaded_vm_interface = self.vm_interface(
                     name=vm_interface["name"],
                     virtual_machine__name=virtual_machine["name"],
                     status__name=vm_interface.get("status", "Active")
                 )
                 self.add(loaded_vm_interface)
-                loaded_virtual_machine.add_child(child=loaded_vm_interface)
+
                 for address in vm_interface.get("addresses", []):
                     loaded_ip_address = self.ip_address(
                         host=address["ip"],
@@ -55,3 +55,4 @@ class VirtualMachineRemoteAdapter(DiffSync):
                         vm_interface=vm_interface["name"]
                     )
                     self.add(loaded_ip_address)
+                    loaded_vm_interface.add_child(child=loaded_ip_address)

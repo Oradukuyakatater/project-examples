@@ -47,9 +47,6 @@ class VirtualMachine(NautobotModel):
         "disk",
         "status__name",
     )
-    _children = {
-        "vm_interface": "vm_interfaces",
-    }
 
     name: str
     cluster__name: str
@@ -57,7 +54,6 @@ class VirtualMachine(NautobotModel):
     memory: Optional[int]
     disk: Optional[int]
     status__name: str
-    vm_interfaces: Optional[List["VMInterface"]] = []
 
 
 class VMInterface(NautobotModel):
