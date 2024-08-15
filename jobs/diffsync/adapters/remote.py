@@ -49,7 +49,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
                 for address in vm_interface.get("ip_addresses", []):
                     loaded_ip_address = self.ip_address(
                         host=address["ip"],
-                        mask_length=address["mask_length"],
+                        mask_length=address["mask"],
                         status__name=vm_interface.get("status", "Active"),
                         virtual_machine=virtual_machine["name"],
                         vm_interface=vm_interface["name"]
