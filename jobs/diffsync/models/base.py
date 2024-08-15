@@ -105,10 +105,9 @@ class IPAddressToInterface(NautobotModel):
     )
     _attributes = (
         "ip_address__host",
-        "ip_address__mask_length",
     )
 
-    ip_address__host: str
-    ip_address__mask_length: int
     vm_interface__virtual_machine__name: str
     vm_interface__name: str
+    ip_address__host: str
+    ip_address__mask_length: int
