@@ -10,13 +10,13 @@ from ..models.base import (
 class VirtualMachineRemoteAdapter(DiffSync):
     """DiffSync adapter for remote system."""
 
-    prefix = PrefixModel
+    # prefix = PrefixModel
     vm_interface = VMInterfaceModel
     virtual_machine = VirtualMachineModel
     ip_address = IPAddressModel
 
     top_level = (
-        "prefix",
+        # "prefix",
         "virtual_machine",
         "vm_interface",
         "ip_address",
@@ -46,7 +46,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
                 )
                 self.add(loaded_vm_interface)
 
-                for address in vm_interface.get("addresses", []):
+                for address in vm_interface.get("ip_addresses", []):
                     loaded_ip_address = self.ip_address(
                         host=address["ip"],
                         mask_length=address["mask_length"],
