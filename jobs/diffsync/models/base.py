@@ -27,9 +27,14 @@ class Prefix(NautobotModel):
     _attributes = (
         "status__name",
     )
+    _children = {
+        "ip_address": "ip_addresses",
+    }
 
     prefix: str
     status__name: str
+
+    ip_addresses: Optional[List["IPAddress"]] = []
 
 
 class VirtualMachine(NautobotModel):
