@@ -93,18 +93,22 @@ class IPAddress(NautobotModel):
     mask_length: str
     status__name: str
 
-    # @classmethod
-    # def create(cls, diffsync, ids, attrs):
-    #     """
-    #         Create IPAddress object in Nautobot.
+    @classmethod
+    def create(cls, diffsync, ids, attrs):
+        """
+            Create IPAddress object in Nautobot.
+            
+            It will also
+        """
 
-    #         It will create the parent prefix from the provided host and netmask_length if it doesn't already exists
-    #         It will set the virtual machine's primary_ip4 if attr 'is_primary' is present and set to True
-    #         It will create an interface to IP association if the object:
-    #         - has both virtual_machine and interface attributes provided
-    #         - both objects exists in nautobot database
-    #     """
+        if attrs["virtual_machine"] and attrs["is_primary"]:
+            device = OrmVirtualMachine.objects.get(
+                name=_virtual_machine,
+            )
+            device.primary_ip4 = OrmIPAddress.objects.get(address=ids["address"])
+            device.save()
 
+        return super().create(ids=ids, diffsync=diffsync, attrs=attrs)
     #     _virtual_machine = attrs["virtual_machine"]
     #     _vm_interface = attrs["vm_interface"]
 
@@ -138,15 +142,6 @@ class IPAddress(NautobotModel):
     #         diffsync.job.logger.info(f"IP {nb_ipaddress.address} assigned to interfacez {_vm_interface} on virtual machine {_virtual_machine}")
     #     nb_ipaddress.validated_save()
 
-    #     if attrs["virtual_machine"] and attrs["is_primary"]:
-    #         device = OrmVirtualMachine.objects.get(
-    #             name=_virtual_machine,
-    #         )
-    #         device.primary_ip4 = OrmIPAddress.objects.get(address=ids["address"])
-    #         device.save()
-
-    #     return super().create(ids=ids, diffsync=diffsync, attrs=attrs)
-
 
 class IPAddressToInterface(NautobotModel):
     """IPAddress model for DiffSync."""
@@ -159,9 +154,12 @@ class IPAddressToInterface(NautobotModel):
         "vm_interface__virtual_machine__name",
         "vm_interface__name",
     )
-    _attributes = ()
+    _attributes = (
+        "is_primary"
+    )
 
     ip_address__host: str
     ip_address__mask_length: int
     vm_interface__virtual_machine__name: str
     vm_interface__name: str
+    is_primary: bool
