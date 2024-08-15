@@ -52,14 +52,15 @@ class VirtualMachineRemoteAdapter(DiffSync):
                 self.add(loaded_vm_interface)
 
                 for address in vm_interface.get("ip_addresses", []):
-                    network_cidr = ipaddress.IPv4Network(f"{address['ip']}/{address['mask']}", strict=False).with_prefixlen
-                    if network_cidr not in self.prefixes_local:
+                    network_obj = ipaddress.IPv4Network(f"{address['ip']}/{address['mask']}", strict=False)
+                    if network_obj.with_prefixlen not in self.prefixes_local:
                         loaded_prefix = self.prefix(
-                            prefix=network_cidr,
+                            network=network_obj.network_address,
+                            prefix_length=network_obj.netmask,
                             status__name=vm_interface.get("status", "Active")
                         )
                         self.add(loaded_prefix)
-                        self.prefixes_local.append(network_cidr)
+                        self.prefixes_local.append(network_obj.with_prefixlen)
                     loaded_ip_address = self.ip_address(
                         host=address["ip"],
                         mask_length=address["mask"],

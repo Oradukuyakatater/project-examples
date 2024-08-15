@@ -22,13 +22,15 @@ class Prefix(NautobotModel):
     _model = OrmPrefix
     _modelname = "prefix"
     _identifiers = (
-        "prefix",
+        "network",
+        "prefix_length",
     )
     _attributes = (
         "status__name",
     )
 
-    prefix: str
+    network: str
+    prefix_length: int
     status__name: str
 
 
