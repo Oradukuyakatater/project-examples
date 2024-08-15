@@ -25,6 +25,8 @@ class VirtualMachineRemoteAdapter(DiffSync):
         "vm_interface",
     )
 
+    prefixes_local = []
+
     def __init__(self, *args, data, **kwargs):
         super().__init__(*args, **kwargs)
         self._data = data
@@ -57,6 +59,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
                             status__name=vm_interface.get("status", "Active")
                         )
                         self.add(loaded_prefix)
+                        self.prefixes_local.append(network_cidr)
                     loaded_ip_address = self.ip_address(
                         host=address["ip"],
                         mask_length=address["mask"],
