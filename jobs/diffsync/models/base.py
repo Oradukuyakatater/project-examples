@@ -70,14 +70,10 @@ class VMInterface(NautobotModel):
     _attributes = (
         "status__name",
     )
-    _children= {
-        "ip_address": "ip_addresses"
-    }
 
     name: str
     virtual_machine__name: str
     status__name: str
-    ip_addresses: Optional[List["IPAddress"]] = []
 
 
 class IPAddress(NautobotModel):
