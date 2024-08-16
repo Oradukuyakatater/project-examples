@@ -129,5 +129,4 @@ class DevicePrimaryIpAddress(NautobotModel):
     )
 
     name: str
-    cluster__name: str
     primary_ip4__host: Optional[Union[str | None]] = None
