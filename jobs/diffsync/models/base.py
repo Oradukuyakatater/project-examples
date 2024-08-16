@@ -148,6 +148,6 @@ class DevicePrimaryIpAddress(DiffSyncModel):
             _virtual_machine.primary_ip4 = _ip_address
             _virtual_machine.save()
         else:
-            diffsync.job.logger.warning(f"Could not set virtual mùachine {attrs["virtual_machine"]} primary ip to {attrs["ip_address"]}")
+            diffsync.job.logger.warning(f"Could not set virtual mùachine {attrs['virtual_machine']} primary ip to {attrs['ip_address']}")
 
         return super().create(ids=ids, diffsync=diffsync, attrs=attrs)
