@@ -90,7 +90,6 @@ class VirtualMachineRemoteAdapter(DiffSync):
                         loaded_virtual_machine_primary_ip4 = self.virtual_machine_primary_ip4(
                             name=virtual_machine["name"],
                             cluster__name=virtual_machine["cluster"],
-                            primary_ip4__host=address["ip"],
-                            primary_ip4__mask_length=address["mask"],
+                            primary_ip4__address=f"{address['ip']}/{address['mask']}",
                         )
                         self.add(loaded_virtual_machine_primary_ip4)
