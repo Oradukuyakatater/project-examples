@@ -27,8 +27,9 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
         "ip_address_to_interface",
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, data, **kwargs):
         super().__init__(*args, **kwargs)
+        self._data = data
 
     def load(self):
         super().load()
