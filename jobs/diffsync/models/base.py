@@ -126,5 +126,5 @@ class VirtualMachinePrimaryIP4(NautobotModel):
         "primary_ip4__mask_length",
     )
     name: str
-    primary_ip4__host: str
-    primary_ip4__mask_length: int
+    primary_ip4__host: Optional[str]
+    primary_ip4__mask_length: Optional[int]
