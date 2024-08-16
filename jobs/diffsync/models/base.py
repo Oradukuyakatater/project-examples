@@ -119,14 +119,11 @@ class IPAddressToInterface(NautobotModel):
 class DevicePrimaryIpAddress(NautobotModel):
     """IPAddress model for DiffSync."""
 
-    _model = OrmVirtualMachine
+    _model = OrmIPAddress
     _modelname = "device_primary_ip_address"
     _identifiers = (
-        "name",
+        "host",
     )
-    _attributes = (
-        "primary_ip4__host",
-    )
+    _attributes = ()
 
-    name: str
-    primary_ip4__host: Optional[Union[str | None]] = None
+    host: str
