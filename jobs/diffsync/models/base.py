@@ -50,8 +50,6 @@ class VirtualMachine(NautobotModel):
         "memory",
         "disk",
         "status__name",
-        "primary_ip4__host",
-        "primary_ip4__mask_length",
     )
 
     name: str
@@ -60,8 +58,6 @@ class VirtualMachine(NautobotModel):
     memory: Optional[int]
     disk: Optional[int]
     status__name: str
-    primary_ip4__host: Optional[str]
-    primary_ip4__mask_length: Optional[int]
 
 
 class VMInterface(NautobotModel):
