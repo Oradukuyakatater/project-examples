@@ -36,7 +36,7 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
         for virtual_machine in self._data:
             for vm_interface in virtual_machine["interfaces"]:
                 for address in vm_interface.get("ip_addresses", []):
-                    if address["primary"] == True:
+                    if address["primary"]:
                         loaded_device_primary_ip_address = self.device_primary_ip_address(
                             virtual_machine=virtual_machine["name"],
                             ip_address=f"{address['ip']}/{address['mask']}",

@@ -120,10 +120,13 @@ class DevicePrimaryIpAddress(DiffSyncModel):
         "virtual_machine",
         "ip_address",
     )
-    _attributes = ()
+    _attributes = (
+        "primary"
+    )
 
     virtual_machine: str
     ip_address: str
+    primary: bool = False
 
     @classmethod
     def create(cls, diffsync, ids, attrs):
@@ -137,17 +140,18 @@ class DevicePrimaryIpAddress(DiffSyncModel):
             - both objects exists in nautobot database
         """
 
-        _virtual_machine = OrmVirtualMachine.objects.get(
-            name=attrs["virtual_machine"]
-        )
-        _ip_address = OrmIPAddress.objects.get(
-            address=attrs["ip_address"]
-        )
-
-        if _virtual_machine and _ip_address:
-            _virtual_machine.primary_ip4 = _ip_address
-            _virtual_machine.save()
-        else:
+        try:
+            _virtual_machine = OrmVirtualMachine.objects.get(
+                name=attrs["virtual_machine"]
+            )
+            _ip_address = OrmIPAddress.objects.get(
+                address=attrs["ip_address"]
+            )
+        except OrmVMInterface.DoesNotExist:
             diffsync.job.logger.warning(f"Could not set virtual mùachine {attrs['virtual_machine']} primary ip to {attrs['ip_address']}")
+        else:
+            if attrs["primary"]:
+                _virtual_machine.primary_ip4 = _ip_address
+                _virtual_machine.validated_save()
 
         return super().create(ids=ids, diffsync=diffsync, attrs=attrs)
