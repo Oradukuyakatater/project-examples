@@ -31,15 +31,3 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
     def __init__(self, *args, data, **kwargs):
         super().__init__(*args, **kwargs)
         self._data = data
-
-    def load(self):
-        for virtual_machine in self._data:
-            for vm_interface in virtual_machine["interfaces"]:
-                for address in vm_interface.get("ip_addresses", []):
-                    if address["primary"]:
-                        loaded_device_primary_ip_address = self.device_primary_ip_address(
-                            virtual_machine=virtual_machine["name"],
-                            ip_address=f"{address['ip']}/{address['mask']}",
-                        )
-                        self.add(loaded_device_primary_ip_address)
-        super().load()

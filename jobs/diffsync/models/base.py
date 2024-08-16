@@ -112,86 +112,88 @@ class IPAddressToInterface(NautobotModel):
     ip_address__host: str
 
 
-class DevicePrimaryIpAddress(DiffSyncModel):
+class DevicePrimaryIpAddress(NautobotModel):
     """IPAddress model for DiffSync."""
 
+    _model = OrmVirtualMachine
     _modelname = "device_primary_ip_address"
     _identifiers = (
-        "virtual_machine",
-        "ip_address",
+        "virtual_machine__name",
     )
-    _attributes = ()
+    _attributes = (
+        "virtual_machine__primary_ip4__address",
+    )
 
-    virtual_machine: str
-    ip_address: str
+    virtual_machine__name: str
+    virtual_machine__ip_address__address: str
 
-    @staticmethod
-    def _patch(diffsync, ids, attrs, return_method):
-        try:
-            _virtual_machine = OrmVirtualMachine.objects.get(
-                name=attrs["virtual_machine"]
-            )
-            _ip_address = OrmIPAddress.objects.get(
-                address=attrs["ip_address"]
-            )
-        except OrmVMInterface.DoesNotExist:
-            diffsync.job.logger.warning(f"Could not set virtual mùachine {attrs['virtual_machine']} primary ip to {attrs['ip_address']}")
-        else:
-            if attrs["primary"]:
-                _virtual_machine.primary_ip4 = _ip_address
-                _virtual_machine.validated_save()
+    # @staticmethod
+    # def _patch(diffsync, ids, attrs, return_method):
+    #     try:
+    #         _virtual_machine = OrmVirtualMachine.objects.get(
+    #             name=attrs["virtual_machine"]
+    #         )
+    #         _ip_address = OrmIPAddress.objects.get(
+    #             address=attrs["ip_address"]
+    #         )
+    #     except OrmVMInterface.DoesNotExist:
+    #         diffsync.job.logger.warning(f"Could not set virtual mùachine {attrs['virtual_machine']} primary ip to {attrs['ip_address']}")
+    #     else:
+    #         if attrs["primary"]:
+    #             _virtual_machine.primary_ip4 = _ip_address
+    #             _virtual_machine.validated_save()
 
-        return return_method(ids=ids, diffsync=diffsync, attrs=attrs)
+    #     return return_method(ids=ids, diffsync=diffsync, attrs=attrs)
 
-    @classmethod
-    def create(cls, diffsync, ids, attrs):
-        """
-            Create IPAddress object in Nautobot.
+    # @classmethod
+    # def create(cls, diffsync, ids, attrs):
+    #     """
+    #         Create IPAddress object in Nautobot.
 
-            It will create the parent prefix from the provided host and netmask_length if it doesn't already exists
-            It will set the virtual machine's primary_ip4 if attr 'is_primary' is present and set to True
-            It will create an interface to IP association if the object:
-            - has both virtual_machine and interface attributes provided
-            - both objects exists in nautobot database
-        """
+    #         It will create the parent prefix from the provided host and netmask_length if it doesn't already exists
+    #         It will set the virtual machine's primary_ip4 if attr 'is_primary' is present and set to True
+    #         It will create an interface to IP association if the object:
+    #         - has both virtual_machine and interface attributes provided
+    #         - both objects exists in nautobot database
+    #     """
         
-        return cls._patch(ids=ids, diffsync=diffsync, attrs=attrs, return_method=super().create)
+    #     return cls._patch(ids=ids, diffsync=diffsync, attrs=attrs, return_method=super().create)
 
-    @classmethod
-    def update(cls, diffsync, ids, attrs):
-        """
-            Create IPAddress object in Nautobot.
+    # @classmethod
+    # def update(cls, diffsync, ids, attrs):
+    #     """
+    #         Create IPAddress object in Nautobot.
 
-            It will create the parent prefix from the provided host and netmask_length if it doesn't already exists
-            It will set the virtual machine's primary_ip4 if attr 'is_primary' is present and set to True
-            It will create an interface to IP association if the object:
-            - has both virtual_machine and interface attributes provided
-            - both objects exists in nautobot database
-        """
+    #         It will create the parent prefix from the provided host and netmask_length if it doesn't already exists
+    #         It will set the virtual machine's primary_ip4 if attr 'is_primary' is present and set to True
+    #         It will create an interface to IP association if the object:
+    #         - has both virtual_machine and interface attributes provided
+    #         - both objects exists in nautobot database
+    #     """
 
-        return cls._patch(ids=ids, diffsync=diffsync, attrs=attrs, return_method=super().create)
+    #     return cls._patch(ids=ids, diffsync=diffsync, attrs=attrs, return_method=super().create)
 
-    @classmethod
-    def delete(cls, diffsync, ids, attrs):
-        """
-            Create IPAddress object in Nautobot.
+    # @classmethod
+    # def delete(cls, diffsync, ids, attrs):
+    #     """
+    #         Create IPAddress object in Nautobot.
 
-            It will create the parent prefix from the provided host and netmask_length if it doesn't already exists
-            It will set the virtual machine's primary_ip4 if attr 'is_primary' is present and set to True
-            It will create an interface to IP association if the object:
-            - has both virtual_machine and interface attributes provided
-            - both objects exists in nautobot database
-        """
+    #         It will create the parent prefix from the provided host and netmask_length if it doesn't already exists
+    #         It will set the virtual machine's primary_ip4 if attr 'is_primary' is present and set to True
+    #         It will create an interface to IP association if the object:
+    #         - has both virtual_machine and interface attributes provided
+    #         - both objects exists in nautobot database
+    #     """
 
-        try:
-            _virtual_machine = OrmVirtualMachine.objects.get(
-                name=attrs["virtual_machine"]
-            )
-        except OrmVMInterface.DoesNotExist:
-            diffsync.job.logger.warning(f"Could not set virtual mùachine {attrs['virtual_machine']} primary ip to {attrs['ip_address']}")
-        else:
-            if attrs["primary"]:
-                _virtual_machine.primary_ip4 = None
-                _virtual_machine.validated_save()
+    #     try:
+    #         _virtual_machine = OrmVirtualMachine.objects.get(
+    #             name=attrs["virtual_machine"]
+    #         )
+    #     except OrmVMInterface.DoesNotExist:
+    #         diffsync.job.logger.warning(f"Could not set virtual mùachine {attrs['virtual_machine']} primary ip to {attrs['ip_address']}")
+    #     else:
+    #         if attrs["primary"]:
+    #             _virtual_machine.primary_ip4 = None
+    #             _virtual_machine.validated_save()
 
-        return super().delete(ids=ids, diffsync=diffsync, attrs=attrs)
+    #     return super().delete(ids=ids, diffsync=diffsync, attrs=attrs)
