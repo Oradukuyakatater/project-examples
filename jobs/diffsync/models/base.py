@@ -48,6 +48,7 @@ class VirtualMachine(NautobotModel):
         "memory",
         "disk",
         "status__name",
+        "primary_ip4__host",
     )
 
     name: str
@@ -56,7 +57,7 @@ class VirtualMachine(NautobotModel):
     memory: Optional[int]
     disk: Optional[int]
     status__name: str
-    primary_ip4__host: Optional[Union["DevicePrimaryIpAddress" | None]] = None
+    primary_ip4__host: Optional[str] = None
 
 
 class VMInterface(NautobotModel):
