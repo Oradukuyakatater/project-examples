@@ -50,7 +50,7 @@ class VirtualMachine(NautobotModel):
         "status__name",
     )
     _children = {
-        "device_primary_ip_address ": "primary_ip4"
+        "device_primary_ip_address": "primary_ip4"
     }
 
     name: str
