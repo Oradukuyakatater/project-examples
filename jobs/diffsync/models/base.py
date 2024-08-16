@@ -1,7 +1,7 @@
 import ipaddress
 
 from diffsync import DiffSyncModel
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from nautobot_ssot.contrib import NautobotModel
 from nautobot.virtualization.models import (
@@ -125,7 +125,7 @@ class DevicePrimaryIpAddress(NautobotModel):
     )
 
     name: str
-    primary_ip4__address: Optional[str] = None
+    primary_ip4__address: Optional[Union[str | None]] = None
 
     # @staticmethod
     # def _patch(diffsync, ids, attrs, return_method):
