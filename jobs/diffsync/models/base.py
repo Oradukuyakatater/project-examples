@@ -125,7 +125,7 @@ class DevicePrimaryIpAddress(NautobotModel):
     )
 
     name: str
-    primary_ip4__address: str
+    primary_ip4__address: Optional[str] = None
 
     # @staticmethod
     # def _patch(diffsync, ids, attrs, return_method):
