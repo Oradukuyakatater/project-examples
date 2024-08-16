@@ -1,4 +1,5 @@
 import ipaddress
+from uuid import UUID
 
 from diffsync import DiffSyncModel
 from typing import List, Optional, Union
@@ -121,10 +122,16 @@ class VirtualMachinePrimaryIP4(NautobotModel):
     _model = OrmVirtualMachine
     _modelname = "virtual_machine_primary_ip4"
     _identifiers = (
-        "name",
+        "uuid"
     )
     _attributes = (
-        "primary_ip4__uuid",
+        "name",
+        "cluster__name",
+        "primary_ip4__host",
+        "primary_ip4__mask_length",
     )
+    uuid: Optional[UUID] = UUID()
     name: str
-    primary_ip4__uuid: Optional[str]
+    cluster__name: str
+    primary_ip4__host: Optional[str]
+    primary_ip4__mask_length: Optional[int]
