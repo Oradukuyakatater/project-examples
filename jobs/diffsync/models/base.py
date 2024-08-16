@@ -49,6 +49,7 @@ class VirtualMachine(NautobotModel):
         "disk",
         "status__name",
         "primary_ip4__host",
+        "primary_ip4__mask_length",
     )
 
     name: str

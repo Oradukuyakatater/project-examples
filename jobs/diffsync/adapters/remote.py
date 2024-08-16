@@ -50,7 +50,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
                 disk=virtual_machine.get("disk"),
                 status__name=virtual_machine.get("status", "Active"),
                 primary_ip4__host=primary_ip[0]["ip"] if len(primary_ip) else None,
-                primary_ip4__host=primary_ip[0]["mask"] if len(primary_ip) else None,
+                primary_ip4__mask_length=primary_ip[0]["mask"] if len(primary_ip) else None,
             )
             self.add(loaded_virtual_machine)
             for vm_interface in virtual_machine["interfaces"]:
