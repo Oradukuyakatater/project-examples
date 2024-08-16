@@ -34,6 +34,24 @@ class Prefix(NautobotModel):
     status__name: str
 
 
+class IPAddress(NautobotModel):
+    """IPAddress model for DiffSync."""
+
+    _model = OrmIPAddress
+    _modelname = "ip_address"
+    _identifiers = (
+        "host",
+    )
+    _attributes = (
+        "mask_length",
+        "status__name",
+    )
+
+    host: str
+    mask_length: str
+    status__name: str
+
+
 class VirtualMachine(NautobotModel):
     """VirtualMachine model for DiffSync."""
 
@@ -48,6 +66,7 @@ class VirtualMachine(NautobotModel):
         "memory",
         "disk",
         "status__name",
+        "primary_ip4__host",
     )
 
     name: str
@@ -56,6 +75,7 @@ class VirtualMachine(NautobotModel):
     memory: Optional[int]
     disk: Optional[int]
     status__name: str
+    primary_ip4__host: Optional[Union[str | None]] = None
 
 
 class VMInterface(NautobotModel):
@@ -76,24 +96,6 @@ class VMInterface(NautobotModel):
     status__name: str
 
 
-class IPAddress(NautobotModel):
-    """IPAddress model for DiffSync."""
-
-    _model = OrmIPAddress
-    _modelname = "ip_address"
-    _identifiers = (
-        "host",
-    )
-    _attributes = (
-        "mask_length",
-        "status__name",
-    )
-
-    host: str
-    mask_length: str
-    status__name: str
-
-
 class IPAddressToInterface(NautobotModel):
     """IPAddress model for DiffSync."""
 
@@ -110,19 +112,3 @@ class IPAddressToInterface(NautobotModel):
     vm_interface__virtual_machine__name: str
     vm_interface__name: str
     ip_address__host: str
-
-
-class DevicePrimaryIpAddress(NautobotModel):
-    """IPAddress model for DiffSync."""
-
-    _model = OrmVirtualMachine
-    _modelname = "device_primary_ip_address"
-    _identifiers = (
-        "name",
-    )
-    _attributes = (
-        "primary_ip4__host",
-    )
-
-    name: str
-    primary_ip4__host: Optional[Union[str | None]] = None
