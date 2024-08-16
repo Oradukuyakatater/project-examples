@@ -110,3 +110,44 @@ class IPAddressToInterface(NautobotModel):
     vm_interface__virtual_machine__name: str
     vm_interface__name: str
     ip_address__host: str
+
+
+class DevicePrimaryIpAddress(DiffSyncModel):
+    """IPAddress model for DiffSync."""
+
+    _modelname = "device_primary_ip_address"
+    _identifiers = (
+        "virtual_machine",
+        "ip_address",
+    )
+    _attributes = ()
+
+    virtual_machine: str
+    ip_address: str
+
+    @classmethod
+    def create(cls, diffsync, ids, attrs):
+        """
+            Create IPAddress object in Nautobot.
+
+            It will create the parent prefix from the provided host and netmask_length if it doesn't already exists
+            It will set the virtual machine's primary_ip4 if attr 'is_primary' is present and set to True
+            It will create an interface to IP association if the object:
+            - has both virtual_machine and interface attributes provided
+            - both objects exists in nautobot database
+        """
+
+        _virtual_machine = OrmVirtualMachine.objects.get(
+            name=attrs["virtual_machine"]
+        )
+        _ip_address = OrmIPAddress.objects.get(
+            address=attrs["ip_address"]
+        )
+
+        if _virtual_machine and _ip_address:
+            _virtual_machine.primary_ip4 = _ip_address
+            _virtual_machine.save()
+        else:
+            diffsync.job.logger.warning(f"Could not set virtual mùachine {attrs["virtual_machine"]} primary ip to {attrs["ip_address"]}")
+
+        return super().create(ids=ids, diffsync=diffsync, attrs=attrs)

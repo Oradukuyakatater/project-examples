@@ -4,6 +4,7 @@ from ..models.base import (
     VirtualMachine as VirtualMachineModel,
     IPAddress as IPAddressModel,
     IPAddressToInterface as IPAddressToInterfaceModel,
+    DevicePrimaryIpAddress as DevicePrimaryIpAddressModel,
 )
 from nautobot_ssot.contrib import NautobotAdapter
 
@@ -16,6 +17,7 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
     vm_interface = VMInterfaceModel
     ip_address = IPAddressModel
     ip_address_to_interface = IPAddressToInterfaceModel
+    device_primary_ip_address = DevicePrimaryIpAddressModel
 
     top_level = (
         "prefix",
@@ -23,7 +25,20 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
         "vm_interface",
         "ip_address",
         "ip_address_to_interface",
+        "device_primary_ip_address",
     )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def load(self):
+        super().load()
+        for virtual_machine in self._data:
+            for vm_interface in virtual_machine["interfaces"]:
+                for address in vm_interface.get("ip_addresses", []):
+                    if address["primary"] == True:
+                        loaded_device_primary_ip_address = self.device_primary_ip_address(
+                            virtual_machine=virtual_machine["name"],
+                            ip_address=f"{address['ip']}/{address['mask']}",
+                        )
+                        self.add(loaded_device_primary_ip_address)

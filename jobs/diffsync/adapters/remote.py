@@ -8,6 +8,7 @@ from ..models.base import (
     VirtualMachine as VirtualMachineModel,
     IPAddress as IPAddressModel,
     IPAddressToInterface as IPAddressToInterfaceModel,
+    DevicePrimaryIpAddress as DevicePrimaryIpAddressModel,
 )
 
 class VirtualMachineRemoteAdapter(DiffSync):
@@ -18,6 +19,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
     virtual_machine = VirtualMachineModel
     ip_address = IPAddressModel
     ip_address_to_interface = IPAddressToInterfaceModel
+    device_primary_ip_address = DevicePrimaryIpAddressModel
 
     top_level = (
         "prefix",
@@ -25,6 +27,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
         "vm_interface",
         "ip_address",
         "ip_address_to_interface",
+        "device_primary_ip_address",
     )
 
     prefixes_local = []
@@ -77,3 +80,9 @@ class VirtualMachineRemoteAdapter(DiffSync):
                         ip_address__host=address["ip"],
                     )
                     self.add(loaded_ip_address_to_interface)
+                    if address["primary"] == True:
+                        loaded_device_primary_ip_address = self.device_primary_ip_address(
+                            virtual_machine=virtual_machine["name"],
+                            ip_address=f"{address['ip']}/{address['mask']}",
+                        )
+                        self.add(loaded_device_primary_ip_address)
