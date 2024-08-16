@@ -106,10 +106,9 @@ class IPAddressToInterface(NautobotModel):
     _identifiers = (
         "vm_interface__virtual_machine__name",
         "vm_interface__name",
-    )
-    _attributes = (
         "ip_address__host",
     )
+    _attributes = ()
 
     vm_interface__virtual_machine__name: str
     vm_interface__name: str
