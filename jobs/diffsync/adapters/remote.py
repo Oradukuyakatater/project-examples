@@ -87,9 +87,8 @@ class VirtualMachineRemoteAdapter(DiffSync):
                     )
                     self.add(loaded_ip_address_to_interface)
                     if address.get("primary", False):
-                        cidr = f"{address['ip']}/{address['mask']}"
                         loaded_virtual_machine_primary_ip4 = self.virtual_machine_primary_ip4(
                             name=virtual_machine["name"],
-                            primary_ip4__address=cidr,
+                            primary_ip4__host=address["ip"],
                         )
                         self.add(loaded_virtual_machine_primary_ip4)

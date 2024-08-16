@@ -116,8 +116,8 @@ class VirtualMachinePrimaryIP4(NautobotModel):
         "name",
     )
     _attributes = (
-        "primary_ip4__address",
+        "primary_ip4__host",
     )
 
     name: str
-    primary_ip4__address: Optional[str] = lambda x: str(x)
+    primary_ip4__host: Optional[str]
