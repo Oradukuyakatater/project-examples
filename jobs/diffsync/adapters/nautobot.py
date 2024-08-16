@@ -33,6 +33,7 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
 
     def load(self):
         super().load()
+        self.top_level = self.top_level + ("device_primary_ip_address", )
         for virtual_machine in self._data:
             for vm_interface in virtual_machine["interfaces"]:
                 for address in vm_interface.get("ip_addresses", []):
