@@ -37,7 +37,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
         # for virtual_machine in self._sql_connection.query(self._query):
         for virtual_machine in self._data:
             primary_ip = [
-                ip_addr["ip"]
+                ip_addr
                 for intf in virtual_machine["interfaces"]
                 for ip_addr in intf["addresses"]
                 if ip_addr.get("primary", False)
@@ -49,7 +49,8 @@ class VirtualMachineRemoteAdapter(DiffSync):
                 memory=virtual_machine.get("memory"),
                 disk=virtual_machine.get("disk"),
                 status__name=virtual_machine.get("status", "Active"),
-                primary_ip4__host=primary_ip[0] if len(primary_ip) else None,
+                primary_ip4__host=primary_ip[0]["ip"] if len(primary_ip) else None,
+                primary_ip4__host=primary_ip[0]["mask"] if len(primary_ip) else None,
             )
             self.add(loaded_virtual_machine)
             for vm_interface in virtual_machine["interfaces"]:

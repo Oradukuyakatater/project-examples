@@ -58,6 +58,7 @@ class VirtualMachine(NautobotModel):
     disk: Optional[int]
     status__name: str
     primary_ip4__host: Optional[str] = None
+    primary_ip4__mask_length: Optional[int] = None
 
 
 class VMInterface(NautobotModel):
