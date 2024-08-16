@@ -49,9 +49,6 @@ class VirtualMachine(NautobotModel):
         "disk",
         "status__name",
     )
-    _children = {
-        "device_primary_ip_address": "primary_ip4"
-    }
 
     name: str
     cluster__name: str
@@ -59,7 +56,7 @@ class VirtualMachine(NautobotModel):
     memory: Optional[int]
     disk: Optional[int]
     status__name: str
-    primary_ip4: "DevicePrimaryIpAddress" = None
+    primary_ip4__host: Optional[Union["DevicePrimaryIpAddress" | None]] = None
 
 
 class VMInterface(NautobotModel):
@@ -114,16 +111,3 @@ class IPAddressToInterface(NautobotModel):
     vm_interface__virtual_machine__name: str
     vm_interface__name: str
     ip_address__host: str
-
-
-class DevicePrimaryIpAddress(NautobotModel):
-    """IPAddress model for DiffSync."""
-
-    _model = OrmIPAddress
-    _modelname = "device_primary_ip_address"
-    _identifiers = (
-        "host",
-    )
-    _attributes = ()
-
-    host: str
