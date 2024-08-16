@@ -118,14 +118,14 @@ class DevicePrimaryIpAddress(NautobotModel):
     _model = OrmVirtualMachine
     _modelname = "device_primary_ip_address"
     _identifiers = (
-        "virtual_machine__name",
+        "name",
     )
     _attributes = (
-        "virtual_machine__primary_ip4__address",
+        "primary_ip4__address",
     )
 
-    virtual_machine__name: str
-    virtual_machine__primary_ip4__address: str
+    name: str
+    primary_ip4__address: str
 
     # @staticmethod
     # def _patch(diffsync, ids, attrs, return_method):
