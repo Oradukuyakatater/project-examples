@@ -117,9 +117,10 @@ class DevicePrimaryIpAddress(NautobotModel):
 
     _model = OrmVirtualMachine
     _modelname = "device_primary_ip_address"
-    _identifiers = ()
-    _attributes = (
+    _identifiers = (
         "name",
+    )
+    _attributes = (
         "primary_ip4__host",
     )
 
