@@ -4,6 +4,7 @@ from ..models.base import (
     VirtualMachine as VirtualMachineModel,
     IPAddress as IPAddressModel,
     IPAddressToInterface as IPAddressToInterfaceModel,
+    VirtualMachinePrimaryIP4 as VirtualMachinePrimaryIP4Model,
 )
 from nautobot_ssot.contrib import NautobotAdapter
 
@@ -16,6 +17,7 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
     vm_interface = VMInterfaceModel
     ip_address = IPAddressModel
     ip_address_to_interface = IPAddressToInterfaceModel
+    virtual_machine_primary_ip4 = VirtualMachinePrimaryIP4Model
 
     top_level = (
         "prefix",

@@ -8,7 +8,7 @@ from ..models.base import (
     VirtualMachine as VirtualMachineModel,
     IPAddress as IPAddressModel,
     IPAddressToInterface as IPAddressToInterfaceModel,
-    VirtualMachinePrimaryIP4 as VirtualMachinePrimaryIP4Model
+    VirtualMachinePrimaryIP4 as VirtualMachinePrimaryIP4Model,
 )
 
 class VirtualMachineRemoteAdapter(DiffSync):
