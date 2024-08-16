@@ -1,7 +1,6 @@
 import ipaddress
 
 from diffsync import DiffSync
-from netaddr import IPNetwork
 
 from ..models.base import (
     Prefix as PrefixModel,

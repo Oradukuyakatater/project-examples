@@ -1,9 +1,4 @@
-import ipaddress
-from uuid import UUID
-
-from diffsync import DiffSyncModel
-from netaddr import IPNetwork
-from typing import List, Optional, Union
+from typing import Optional
 
 from nautobot_ssot.contrib import NautobotModel
 from nautobot.virtualization.models import (
@@ -15,7 +10,6 @@ from nautobot.ipam.models import (
     IPAddressToInterface as OrmIPAddressToInterface,
     Prefix as OrmPrefix,
 )
-from nautobot.extras.models import Status
 
 
 class Prefix(NautobotModel):
@@ -126,4 +120,4 @@ class VirtualMachinePrimaryIP4(NautobotModel):
     )
 
     name: str
-    primary_ip4__address: Optional[IPNetwork]
+    primary_ip4__address: Optional[str]
