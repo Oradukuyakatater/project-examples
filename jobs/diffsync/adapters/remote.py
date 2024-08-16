@@ -1,6 +1,7 @@
 import ipaddress
 
 from diffsync import DiffSync
+from netaddr import IPNetwork
 
 from ..models.base import (
     Prefix as PrefixModel,
@@ -87,9 +88,10 @@ class VirtualMachineRemoteAdapter(DiffSync):
                     )
                     self.add(loaded_ip_address_to_interface)
                     if address.get("primary", False):
+                        cidr = f"{address['ip']}/{address['mask']}"
                         loaded_virtual_machine_primary_ip4 = self.virtual_machine_primary_ip4(
                             name=virtual_machine["name"],
                             cluster__name=virtual_machine["cluster"],
-                            primary_ip4__address=f"{address['ip']}/{address['mask']}",
+                            primary_ip4__address=IPNetwork(cidr),
                         )
                         self.add(loaded_virtual_machine_primary_ip4)

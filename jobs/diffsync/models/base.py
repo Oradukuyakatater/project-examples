@@ -2,6 +2,7 @@ import ipaddress
 from uuid import UUID
 
 from diffsync import DiffSyncModel
+from netaddr import IPNetwork
 from typing import List, Optional, Union
 
 from nautobot_ssot.contrib import NautobotModel
@@ -129,4 +130,4 @@ class VirtualMachinePrimaryIP4(NautobotModel):
     )
 
     name: str
-    primary_ip4__address: Optional[str]
+    primary_ip4__address: Optional[IPNetwork]
