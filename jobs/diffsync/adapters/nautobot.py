@@ -23,7 +23,6 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
         "virtual_machine",
         "vm_interface",
         "ip_address_to_interface",
-        "device_primary_ip_address",
     )
 
     def __init__(self, *args, data, **kwargs):
