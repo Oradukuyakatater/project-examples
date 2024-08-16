@@ -31,3 +31,43 @@ class VirtualMachineDataSource(DataSource):
 
 
 register_jobs(VirtualMachineDataSource)
+
+
+# test_data_overlapping_networks = [
+#     {
+#         "name": "vm-01",
+#         "cluster": "esx-01",
+#         "vcpus": 4,
+#         "memory": 8192,
+#         "disk": 200,
+#         "interfaces": [
+#             {
+#                 "name": "eth0",
+#                 "ip_addresses": [
+#                     {
+#                         "ip": "1.1.1.5",
+#                         "mask": 24
+#                     }
+#                 ]
+#             }
+#         ]
+#     },
+#     {
+#         "name": "vm-02",
+#         "cluster": "esx-01",
+#         "vcpus": 4,
+#         "memory": 8192,
+#         "disk": 200,
+#         "interfaces": [
+#             {
+#                 "name": "eth0",
+#                 "ip_addresses": [
+#                     {
+#                         "ip": "1.1.1.5",
+#                         "mask": 23
+#                     }
+#                 ]
+#             }
+#         ]
+#     }
+# ]
