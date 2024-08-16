@@ -49,6 +49,9 @@ class VirtualMachine(NautobotModel):
         "disk",
         "status__name",
     )
+    _children = {
+        "primary_ip4": "primary_ip4"
+    }
 
     name: str
     cluster__name: str
@@ -56,6 +59,7 @@ class VirtualMachine(NautobotModel):
     memory: Optional[int]
     disk: Optional[int]
     status__name: str
+    primary_ip4: "DevicePrimaryIpAddress" = None
 
 
 class VMInterface(NautobotModel):
@@ -119,7 +123,6 @@ class DevicePrimaryIpAddress(NautobotModel):
     _modelname = "device_primary_ip_address"
     _identifiers = (
         "name",
-        "cluster__name",
     )
     _attributes = (
         "primary_ip4__host",
