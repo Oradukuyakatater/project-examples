@@ -122,9 +122,11 @@ class VirtualMachinePrimaryIP4(NautobotModel):
     _modelname = "virtual_machine_primary_ip4"
     _identifiers = (
         "name",
+        "cluster__name",
         "primary_ip4__host",
         "primary_ip4__mask_length",
     )
     name: str
+    cluster__name: str
     primary_ip4__host: Optional[str]
     primary_ip4__mask_length: Optional[int]
