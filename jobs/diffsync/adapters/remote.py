@@ -36,7 +36,12 @@ class VirtualMachineRemoteAdapter(DiffSync):
     def load(self):
         # for virtual_machine in self._sql_connection.query(self._query):
         for virtual_machine in self._data:
-            interface_ips = [x.get("addresses", []) for x in virtual_machine["interfaces"]].flatten()
+            primary_ip = [
+                ip_addr["ip"]
+                for intf in virtual_machine["interfaces"]
+                for ip_addr in intf["addresses"] 
+                if ip_addr.get("primary", False)
+            ]
             loaded_virtual_machine = self.virtual_machine(
                 name=virtual_machine["name"],
                 cluster__name=virtual_machine["cluster"],
@@ -44,7 +49,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
                 memory=virtual_machine.get("memory"),
                 disk=virtual_machine.get("disk"),
                 status__name=virtual_machine.get("status", "Active"),
-                primary_ip4__host=[x["ip"] for x in interface_ips if x.get("primary", False)],
+                primary_ip4__host=primary_ip[0] if len(primary_ip) else None,
             )
             self.add(loaded_virtual_machine)
             for vm_interface in virtual_machine["interfaces"]:
