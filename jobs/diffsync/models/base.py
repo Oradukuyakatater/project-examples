@@ -122,7 +122,7 @@ class VirtualMachinePrimaryIP4(NautobotModel):
     _model = OrmVirtualMachine
     _modelname = "virtual_machine_primary_ip4"
     _identifiers = (
-        "uuid"
+        "uuid",
     )
     _attributes = (
         "name",
@@ -130,6 +130,7 @@ class VirtualMachinePrimaryIP4(NautobotModel):
         "primary_ip4__host",
         "primary_ip4__mask_length",
     )
+
     uuid: Optional[UUID] = None
     name: str
     cluster__name: str
