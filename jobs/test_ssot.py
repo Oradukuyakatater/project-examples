@@ -25,7 +25,7 @@ class VirtualMachineDataSource(DataSource):
         self.source_adapter.load()
 
     def load_target_adapter(self):
-        self.target_adapter = VirtualMachineNautobotAdapter(job=self)
+        self.target_adapter = VirtualMachineNautobotAdapter(job=self, data=self._data)
         self.target_adapter.load()
 
 
