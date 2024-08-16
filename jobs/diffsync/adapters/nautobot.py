@@ -25,6 +25,7 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
         "vm_interface",
         "ip_address",
         "ip_address_to_interface",
+        "device_primary_ip_address",
     )
 
     def __init__(self, *args, data, **kwargs):
@@ -32,8 +33,6 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
         self._data = data
 
     def load(self):
-        super().load()
-        self.top_level = self.top_level + ("device_primary_ip_address", )
         for virtual_machine in self._data:
             for vm_interface in virtual_machine["interfaces"]:
                 for address in vm_interface.get("ip_addresses", []):
@@ -43,3 +42,4 @@ class VirtualMachineNautobotAdapter(NautobotAdapter):
                             ip_address=f"{address['ip']}/{address['mask']}",
                         )
                         self.add(loaded_device_primary_ip_address)
+        super().load()
