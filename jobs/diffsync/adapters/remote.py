@@ -8,6 +8,7 @@ from ..models.base import (
     VirtualMachine as VirtualMachineModel,
     IPAddress as IPAddressModel,
     IPAddressToInterface as IPAddressToInterfaceModel,
+    DevicePrimaryIpAddress as DevicePrimaryIpAddressModel,
 )
 
 class VirtualMachineRemoteAdapter(DiffSync):
@@ -18,6 +19,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
     virtual_machine = VirtualMachineModel
     ip_address = IPAddressModel
     ip_address_to_interface = IPAddressToInterfaceModel
+    device_primary_ip_address = DevicePrimaryIpAddressModel
 
     top_level = (
         "prefix",
@@ -25,6 +27,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
         "virtual_machine",
         "vm_interface",
         "ip_address_to_interface",
+        "device_primary_ip_address",
     )
 
     prefixes_local = []
@@ -36,12 +39,12 @@ class VirtualMachineRemoteAdapter(DiffSync):
     def load(self):
         # for virtual_machine in self._sql_connection.query(self._query):
         for virtual_machine in self._data:
-            primary_ip = [
-                ip_addr["ip"]
-                for intf in virtual_machine["interfaces"]
-                for ip_addr in intf["addresses"] 
-                if ip_addr.get("primary", False)
-            ]
+            # primary_ip = [
+            #     ip_addr["ip"]
+            #     for intf in virtual_machine["interfaces"]
+            #     for ip_addr in intf["addresses"] 
+            #     if ip_addr.get("primary", False)
+            # ]
             loaded_virtual_machine = self.virtual_machine(
                 name=virtual_machine["name"],
                 cluster__name=virtual_machine["cluster"],
@@ -49,7 +52,6 @@ class VirtualMachineRemoteAdapter(DiffSync):
                 memory=virtual_machine.get("memory"),
                 disk=virtual_machine.get("disk"),
                 status__name=virtual_machine.get("status", "Active"),
-                primary_ip4__host=primary_ip[0] if len(primary_ip) else None,
             )
             self.add(loaded_virtual_machine)
             for vm_interface in virtual_machine["interfaces"]:
@@ -84,9 +86,9 @@ class VirtualMachineRemoteAdapter(DiffSync):
                         ip_address__host=address["ip"],
                     )
                     self.add(loaded_ip_address_to_interface)
-                    # if address.get("primary", False):
-                    #     loaded_device_primary_ip_address = self.device_primary_ip_address(
-                    #         name=virtual_machine["name"],
-                    #         primary_ip4__host=address["ip"],
-                    #     )
-                    #     self.add(loaded_device_primary_ip_address)
+                    if address.get("primary", False):
+                        loaded_device_primary_ip_address = self.device_primary_ip_address(
+                            name=virtual_machine["name"],
+                            primary_ip4__host=address["ip"],
+                        )
+                        self.add(loaded_device_primary_ip_address)
