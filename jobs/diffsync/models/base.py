@@ -120,10 +120,11 @@ class VirtualMachinePrimaryIP4(NautobotModel):
 
     _model = OrmVirtualMachine
     _modelname = "virtual_machine_primary_ip4"
-    _identifiers = ()
-    _attributes = (
+    _identifiers = (
         "name",
         "cluster__name",
+    )
+    _attributes = (
         "primary_ip4__host",
         "primary_ip4__mask_length",
     )
