@@ -113,3 +113,18 @@ class IPAddressToInterface(NautobotModel):
     vm_interface__virtual_machine__name: str
     vm_interface__name: str
     ip_address__host: str
+
+
+class VirtualMachinePrimaryIP4(NautobotModel):
+    """VirtualMachine model for DiffSync."""
+
+    _model = OrmVirtualMachine
+    _modelname = "virtual_machine_primary_ip4"
+    _identifiers = (
+        "name",
+        "primary_ip4__host",
+        "primary_ip4__mask_length",
+    )
+    name: str
+    primary_ip4__host: str
+    primary_ip4__mask_length: int

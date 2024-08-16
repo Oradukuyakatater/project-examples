@@ -8,6 +8,7 @@ from ..models.base import (
     VirtualMachine as VirtualMachineModel,
     IPAddress as IPAddressModel,
     IPAddressToInterface as IPAddressToInterfaceModel,
+    VirtualMachinePrimaryIP4 as VirtualMachinePrimaryIP4Model
 )
 
 class VirtualMachineRemoteAdapter(DiffSync):
@@ -18,6 +19,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
     virtual_machine = VirtualMachineModel
     ip_address = IPAddressModel
     ip_address_to_interface = IPAddressToInterfaceModel
+    virtual_machine_primary_ip4 = VirtualMachinePrimaryIP4Model
 
     top_level = (
         "prefix",
@@ -25,6 +27,7 @@ class VirtualMachineRemoteAdapter(DiffSync):
         "virtual_machine",
         "vm_interface",
         "ip_address_to_interface",
+        "virtual_machine_primary_ip4",
     )
 
     prefixes_local = []
@@ -49,8 +52,6 @@ class VirtualMachineRemoteAdapter(DiffSync):
                 memory=virtual_machine.get("memory"),
                 disk=virtual_machine.get("disk"),
                 status__name=virtual_machine.get("status", "Active"),
-                primary_ip4__host=primary_ip[0]["ip"] if len(primary_ip) else None,
-                primary_ip4__mask_length=primary_ip[0]["mask"] if len(primary_ip) else None,
             )
             self.add(loaded_virtual_machine)
             for vm_interface in virtual_machine["interfaces"]:
@@ -85,3 +86,9 @@ class VirtualMachineRemoteAdapter(DiffSync):
                         ip_address__host=address["ip"],
                     )
                     self.add(loaded_ip_address_to_interface)
+                    if address.get("primary", False):
+                        loaded_ip_address_to_interface = self.virtual_machine_primary_ip4(
+                            name=virtual_machine["name"],
+                            primary_ip4__host=address["ip"],
+                            primary_ip4__mask_length=address["mask"],
+                        )
