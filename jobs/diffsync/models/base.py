@@ -130,7 +130,7 @@ class VirtualMachinePrimaryIP4(NautobotModel):
         "primary_ip4__host",
         "primary_ip4__mask_length",
     )
-    uuid: Optional[UUID] = UUID()
+    uuid: Optional[UUID] = None
     name: str
     cluster__name: str
     primary_ip4__host: Optional[str]
