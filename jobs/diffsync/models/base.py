@@ -119,10 +119,12 @@ class DevicePrimaryIpAddress(NautobotModel):
     _modelname = "device_primary_ip_address"
     _identifiers = (
         "name",
+        "cluster__name",
     )
     _attributes = (
         "primary_ip4__host",
     )
 
     name: str
+    cluster__name: str
     primary_ip4__host: Optional[Union[str | None]] = None
