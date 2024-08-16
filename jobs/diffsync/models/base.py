@@ -125,7 +125,7 @@ class DevicePrimaryIpAddress(NautobotModel):
     )
 
     virtual_machine__name: str
-    virtual_machine__ip_address__address: str
+    virtual_machine__primary_ip4__address: str
 
     # @staticmethod
     # def _patch(diffsync, ids, attrs, return_method):
