@@ -90,4 +90,5 @@ class VirtualMachineRemoteAdapter(DiffSync):
                         loaded_device_primary_ip_address = self.device_primary_ip_address(
                             host=address["ip"],
                         )
+                        self.add(loaded_device_primary_ip_address)
                         loaded_virtual_machine.add_child(loaded_device_primary_ip_address)
