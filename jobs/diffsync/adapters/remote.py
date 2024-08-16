@@ -83,6 +83,6 @@ class VirtualMachineRemoteAdapter(DiffSync):
                     if address["primary"]:
                         loaded_device_primary_ip_address = self.device_primary_ip_address(
                             name=virtual_machine["name"],
-                            primary_ip4__address=f"{address['ip']}/{address['mask']}",
+                            primary_ip4__host=address["ip"],
                         )
                         self.add(loaded_device_primary_ip_address)
