@@ -120,4 +120,4 @@ class VirtualMachinePrimaryIP4(NautobotModel):
     )
 
     name: str
-    primary_ip4__address: Optional[str]
+    primary_ip4__address: Optional[str] = lambda x: str(x)
